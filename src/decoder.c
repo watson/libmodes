@@ -4,7 +4,6 @@
 #define MODE_S_LONG_MSG_BITS 112
 #define MODE_S_SHORT_MSG_BITS 56
 #define MODE_S_FULL_LEN (MODE_S_PREAMBLE_US+MODE_S_LONG_MSG_BITS)
-#define MODE_S_SHORT_MSG_BYTES (56/8)
 
 #define MODE_S_ICAO_CACHE_TTL 60   // Time to live of cached addresses.
 
