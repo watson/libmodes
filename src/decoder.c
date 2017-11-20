@@ -7,8 +7,6 @@
 #define MODE_S_SHORT_MSG_BYTES (56/8)
 
 #define MODE_S_ICAO_CACHE_TTL 60   // Time to live of cached addresses.
-#define MODE_S_UNIT_FEET 0
-#define MODE_S_UNIT_METERS 1
 
 static uint16_t maglut[129*129*2];
 static int maglut_initialized = 0;

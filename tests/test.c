@@ -131,7 +131,8 @@ void display_mode_s_msg(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm) {
   if (mm->msgtype == 0) {
     // DF 0
     printf("DF 0: Short Air-Air Surveillance.\n");
-    printf("  Altitude       : %d %s\n", mm->altitude, "feet");
+    printf("  Altitude       : %d %s\n", mm->altitude,
+      (mm->unit == MODE_S_UNIT_METERS) ? "meters" : "feet");
     printf("  ICAO Address   : %02x%02x%02x\n", mm->aa1, mm->aa2, mm->aa3);
   } else if (mm->msgtype == 4 || mm->msgtype == 20) {
     printf("DF %d: %s, Altitude Reply.\n", mm->msgtype,
@@ -139,7 +140,8 @@ void display_mode_s_msg(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm) {
     printf("  Flight Status  : %s\n", fs_str[mm->fs]);
     printf("  DR             : %d\n", mm->dr);
     printf("  UM             : %d\n", mm->um);
-    printf("  Altitude       : %d %s\n", mm->altitude, "feet");
+    printf("  Altitude       : %d %s\n", mm->altitude,
+      (mm->unit == MODE_S_UNIT_METERS) ? "meters" : "feet");
     printf("  ICAO Address   : %02x%02x%02x\n", mm->aa1, mm->aa2, mm->aa3);
 
     if (mm->msgtype == 20) {

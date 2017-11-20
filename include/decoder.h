@@ -10,6 +10,8 @@
 
 #define MODE_S_ICAO_CACHE_LEN 1024 // Power of two required
 #define MODE_S_LONG_MSG_BYTES (112/8)
+#define MODE_S_UNIT_FEET 0
+#define MODE_S_UNIT_METERS 1
 
 // Program state
 typedef struct {
