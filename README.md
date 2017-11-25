@@ -9,7 +9,8 @@ also carry ADS-B information.
 
 This project is a refactoring of the popular
 [dump1090](https://github.com/antirez/dump1090) project by Salvatore
-Sanfilippo. It modularizes the code into separate functions.
+Sanfilippo. It modularizes the code into separate functions and removes
+all non-essentials, so that only the decoding logic is left.
 
 This project is still very much WIP.
 
