@@ -31,9 +31,9 @@ void read_data_from_file(void) {
       continue;
     }
 
-		// Move the last part of the previous buffer, that was not processed, on
-		// the start of the new buffer.
-		memcpy(data, data+MODE_S_DATA_LEN, (MODE_S_FULL_LEN-1)*4);
+    // Move the last part of the previous buffer, that was not processed, on
+    // the start of the new buffer.
+    memcpy(data, data+MODE_S_DATA_LEN, (MODE_S_FULL_LEN-1)*4);
     toread = MODE_S_DATA_LEN;
     p = data+(MODE_S_FULL_LEN-1)*4;
     while(toread) {
@@ -46,8 +46,8 @@ void read_data_from_file(void) {
       toread -= nread;
     }
     if (toread) {
-			// Not enough data on file to fill the buffer? Pad with no signal.
-			memset(p, 127, toread);
+      // Not enough data on file to fill the buffer? Pad with no signal.
+      memset(p, 127, toread);
     }
     data_ready = 1;
     // Signal to the other thread that new data is ready
@@ -120,15 +120,15 @@ int main(int argc, char **argv) {
     }
     mode_s_compute_magnitude_vector(data, mag, data_len);
 
-		// Signal to the other thread that we processed the available data and we
-		// want more.
-		data_ready = 0;
+    // Signal to the other thread that we processed the available data and we
+    // want more.
+    data_ready = 0;
     pthread_cond_signal(&data_cond);
 
-		// Process data after releasing the lock, so that the capturing thread can
-		// read data while we perform computationally expensive stuff * at the same
-		// time. (This should only be useful with very slow processors).
-		pthread_mutex_unlock(&data_mutex);
+    // Process data after releasing the lock, so that the capturing thread can
+    // read data while we perform computationally expensive stuff * at the same
+    // time. (This should only be useful with very slow processors).
+    pthread_mutex_unlock(&data_mutex);
     mode_s_detect(&state, mag, data_len/2, test);
     pthread_mutex_lock(&data_mutex);
     if (should_exit) break;
