@@ -135,4 +135,5 @@ int main(int argc, char **argv) {
   }
 
   printf("all ok");
+  return 0;
 }
