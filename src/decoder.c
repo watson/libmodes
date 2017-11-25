@@ -310,7 +310,7 @@ static const char *ais_charset = "?ABCDEFGHIJKLMNOPQRSTUVWXYZ????? ?????????????
 
 // Decode a raw Mode S message demodulated as a stream of bytes by
 // mode_s_detect(), and split it into fields populating a mode_s_msg structure.
-void decode_mode_s_msg(mode_s_t *self, struct mode_s_msg *mm, unsigned char *msg) {
+void mode_s_decode(mode_s_t *self, struct mode_s_msg *mm, unsigned char *msg) {
   uint32_t crc2; // Computed CRC, used to verify the message CRC.
 
   // Work on our local copy
@@ -713,7 +713,7 @@ good_preamble:
       struct mode_s_msg mm;
 
       // Decode the received message
-      decode_mode_s_msg(self, &mm, msg);
+      mode_s_decode(self, &mm, msg);
 
       // Skip this message if we are sure it's fine.
       if (mm.crcok) {
