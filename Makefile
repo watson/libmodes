@@ -2,7 +2,6 @@ INCLUDE = ./include
 CFLAGS ?= -O2 -g -Wall -W
 LDLIBS += -lpthread -lm
 CC ?= gcc
-PROGNAME = adsb-test
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -I${INCLUDE} $^ -o $@
