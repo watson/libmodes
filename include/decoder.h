@@ -1,5 +1,5 @@
-#ifndef __ADSB_DECODER_H
-#define __ADSB_DECODER_H
+#ifndef __MODE_S_DECODER_H
+#define __MODE_S_DECODER_H
 
 #include <string.h>
 #include <stdlib.h>
@@ -22,10 +22,10 @@ typedef struct {
   int fix_errors; // Single bit error correction if true
   int aggressive; // Aggressive detection algorithm
   int check_crc;  // Only display messages with good CRC
-} adsb_mode_s_t;
+} mode_s_t;
 
 // The struct we use to store information about a decoded message
-struct adsb_mode_s_msg {
+struct mode_s_msg {
   // Generic fields
   unsigned char msg[MODE_S_LONG_MSG_BYTES]; // Binary message
   int msgbits;                // Number of bits in message
@@ -69,10 +69,10 @@ struct adsb_mode_s_msg {
   int altitude, unit;
 };
 
-typedef void (*adsb_cb_t)(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm);
+typedef void (*mode_s_callback_t)(mode_s_t *self, struct mode_s_msg *mm);
 
-void adsb_init(adsb_mode_s_t *self);
-void adsb_compute_magnitude_vector(unsigned char *data, uint16_t *mag, uint32_t size);
-void adsb_detect_mode_s(adsb_mode_s_t *self, uint16_t *mag, uint32_t maglen, adsb_cb_t);
+void mode_s_init(mode_s_t *self);
+void mode_s_compute_magnitude_vector(unsigned char *data, uint16_t *mag, uint32_t size);
+void mode_s_detect(mode_s_t *self, uint16_t *mag, uint32_t maglen, mode_s_callback_t);
 
 #endif

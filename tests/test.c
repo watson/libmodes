@@ -75,7 +75,7 @@ char *messages[8] = {
   "200006b31828c8"
 };
 
-void test(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm) {
+void test(mode_s_t *self, struct mode_s_msg *mm) {
   MODE_S_NOTUSED(self);
   int j;
 
@@ -87,7 +87,7 @@ void test(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm) {
 }
 
 int main(int argc, char **argv) {
-  adsb_mode_s_t state;
+  mode_s_t state;
   uint16_t *mag;
 
   if (argc != 2) {
@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
     exit(1);
   }
 
-  adsb_init(&state);
+  mode_s_init(&state);
 
   pthread_create(&reader_thread, NULL, reader_thread_entry_point, NULL);
 
@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
       pthread_cond_wait(&data_cond, &data_mutex);
       continue;
     }
-    adsb_compute_magnitude_vector(data, mag, data_len);
+    mode_s_compute_magnitude_vector(data, mag, data_len);
 
 		// Signal to the other thread that we processed the available data and we
 		// want more.
@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
 		// read data while we perform computationally expensive stuff * at the same
 		// time. (This should only be useful with very slow processors).
 		pthread_mutex_unlock(&data_mutex);
-    adsb_detect_mode_s(&state, mag, data_len/2, test);
+    mode_s_detect(&state, mag, data_len/2, test);
     pthread_mutex_lock(&data_mutex);
     if (should_exit) break;
   }

@@ -12,7 +12,7 @@ static int maglut_initialized = 0;
 
 // =============================== Initialization ===========================
 
-void adsb_init(adsb_mode_s_t *self) {
+void mode_s_init(mode_s_t *self) {
   int i, q;
 
   self->fix_errors = 1;
@@ -188,7 +188,7 @@ uint32_t icao_cache_has_addr(uint32_t a) {
 // Add the specified entry to the cache of recently seen ICAO addresses. Note
 // that we also add a timestamp so that we can make sure that the entry is only
 // valid for MODE_S_ICAO_CACHE_TTL seconds.
-void add_recently_seen_icao_addr(adsb_mode_s_t *self, uint32_t addr) {
+void add_recently_seen_icao_addr(mode_s_t *self, uint32_t addr) {
   uint32_t h = icao_cache_has_addr(addr);
   self->icao_cache[h*2] = addr;
   self->icao_cache[h*2+1] = (uint32_t) time(NULL);
@@ -197,7 +197,7 @@ void add_recently_seen_icao_addr(adsb_mode_s_t *self, uint32_t addr) {
 // Returns 1 if the specified ICAO address was seen in a DF format with proper
 // checksum (not xored with address) no more than * MODE_S_ICAO_CACHE_TTL
 // seconds ago. Otherwise returns 0.
-int icao_addr_was_recently_seen(adsb_mode_s_t *self, uint32_t addr) {
+int icao_addr_was_recently_seen(mode_s_t *self, uint32_t addr) {
   uint32_t h = icao_cache_has_addr(addr);
   uint32_t a = self->icao_cache[h*2];
   int32_t t = self->icao_cache[h*2+1];
@@ -215,12 +215,12 @@ int icao_addr_was_recently_seen(adsb_mode_s_t *self, uint32_t addr) {
 // This function expects mm->msgtype and mm->msgbits to be correctly populated
 // by the caller.
 //
-// On success the correct ICAO address is stored in the adsb_mode_s_msg
-// structure in the aa3, aa2, and aa1 fiedls.
+// On success the correct ICAO address is stored in the mode_s_msg structure in
+// the aa3, aa2, and aa1 fiedls.
 //
 // If the function successfully recovers a message with a correct checksum it
 // returns 1. Otherwise 0 is returned.
-int brute_force_ap(adsb_mode_s_t *self, unsigned char *msg, struct adsb_mode_s_msg *mm) {
+int brute_force_ap(mode_s_t *self, unsigned char *msg, struct mode_s_msg *mm) {
   unsigned char aux[MODE_S_LONG_MSG_BYTES];
   int msgtype = mm->msgtype;
   int msgbits = mm->msgbits;
@@ -309,9 +309,8 @@ int decode_ac12_field(unsigned char *msg, int *unit) {
 static const char *ais_charset = "?ABCDEFGHIJKLMNOPQRSTUVWXYZ????? ???????????????0123456789??????";
 
 // Decode a raw Mode S message demodulated as a stream of bytes by
-// adsb_detect_mode_s(), and split it into fields populating a adsb_mode_s_msg
-// structure.
-void decode_mode_s_msg(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm, unsigned char *msg) {
+// mode_s_detect(), and split it into fields populating a mode_s_msg structure.
+void decode_mode_s_msg(mode_s_t *self, struct mode_s_msg *mm, unsigned char *msg) {
   uint32_t crc2; // Computed CRC, used to verify the message CRC.
 
   // Work on our local copy
@@ -487,7 +486,7 @@ void decode_mode_s_msg(adsb_mode_s_t *self, struct adsb_mode_s_msg *mm, unsigned
 }
 
 // Turn I/Q samples pointed by `data` into the magnitude vector pointed by `mag`
-void adsb_compute_magnitude_vector(unsigned char *data, uint16_t *mag, uint32_t size) {
+void mode_s_compute_magnitude_vector(unsigned char *data, uint16_t *mag, uint32_t size) {
   uint32_t j;
 
   // Compute the magnitudo vector. It's just SQRT(I^2 + Q^2), but we rescale
@@ -560,7 +559,7 @@ void apply_phase_correction(uint16_t *mag) {
 // Detect a Mode S messages inside the magnitude buffer pointed by 'mag' and of
 // size 'maglen' bytes. Every detected Mode S message is convert it into a
 // stream of bits and passed to the function to display it.
-void adsb_detect_mode_s(adsb_mode_s_t *self, uint16_t *mag, uint32_t maglen, adsb_cb_t cb) {
+void mode_s_detect(mode_s_t *self, uint16_t *mag, uint32_t maglen, mode_s_callback_t cb) {
   unsigned char bits[MODE_S_LONG_MSG_BITS];
   unsigned char msg[MODE_S_LONG_MSG_BITS/2];
   uint16_t aux[MODE_S_LONG_MSG_BITS*2];
@@ -711,7 +710,7 @@ good_preamble:
     // a Mode S message in our hands, but it may still be broken and CRC
     // may not be correct. This is handled by the next layer.
     if (errors == 0 || (self->aggressive && errors < 3)) {
-      struct adsb_mode_s_msg mm;
+      struct mode_s_msg mm;
 
       // Decode the received message
       decode_mode_s_msg(self, &mm, msg);
