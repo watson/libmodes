@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
 
   data_len = MODE_S_DATA_LEN + (MODE_S_FULL_LEN-1)*4;
   if ((data = malloc(data_len)) == NULL ||
-    (mag = malloc(data_len*2)) == NULL) {
+    (mag = malloc(sizeof(uint16_t) * (data_len / 2))) == NULL) {
     fprintf(stderr, "Out of memory allocating data buffer.\n");
     exit(1);
   }
