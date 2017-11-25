@@ -1,3 +1,0 @@
-[submodule "tests/fixtures"]
-	path = tests/fixtures
-	url = https://github.com/watson/libasdb-test-fixtures.git

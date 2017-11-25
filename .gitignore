@@ -1,2 +1,3 @@
 *.o
-adsb-test
+tests/fixtures
+tests/test
