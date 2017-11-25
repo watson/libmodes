@@ -46,6 +46,18 @@ Check out
 [`tests/test.c`](https://github.com/watson/libmodes/blob/master/tests/test.c)
 for a complete example.
 
+## Testing
+
+To test the library, simply run:
+
+```
+make && make test
+```
+
+Note that the first time you run `make test`, a large (ca. 50MB) test
+fixture will be downloaded to `tests/fixtures`. You can delete this
+folder at any time if you wish.
+
 ## License
 
 BSD-2-Clause
