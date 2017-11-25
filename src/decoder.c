@@ -489,7 +489,7 @@ void mode_s_decode(mode_s_t *self, struct mode_s_msg *mm, unsigned char *msg) {
 void mode_s_compute_magnitude_vector(unsigned char *data, uint16_t *mag, uint32_t size) {
   uint32_t j;
 
-  // Compute the magnitudo vector. It's just SQRT(I^2 + Q^2), but we rescale
+  // Compute the magnitude vector. It's just SQRT(I^2 + Q^2), but we rescale
   // to the 0-255 range to exploit the full resolution.
   for (j = 0; j < size; j += 2) {
     int i = data[j]-127;
