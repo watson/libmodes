@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
   mode_s_init(&state);
 
   // get some raw IQ data somehow
-  get_samples(data);
+  get_samples(&data);
 
   // compute the magnitude of the signal
   mode_s_compute_magnitude_vector(&data, &mag, data_len);
