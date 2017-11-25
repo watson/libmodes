@@ -6,8 +6,10 @@ CC ?= gcc
 %.o: %.c
 	$(CC) -c $(CFLAGS) -I${INCLUDE} $^ -o $@
 
-test: tests/test.o src/decoder.o
+all: tests/test.o src/decoder.o
 	$(CC) ${CFLAGS} ${LDLIBS} $^ -o tests/test
+
+test:
 	if [ ! -d "tests/fixtures" ]; then \
 		git clone --depth=1 https://github.com/watson/libasdb-test-fixtures.git tests/fixtures; \
 	else \
