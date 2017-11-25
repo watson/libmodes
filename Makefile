@@ -7,7 +7,7 @@ CC ?= gcc
 	$(CC) -c $(CFLAGS) -I${INCLUDE} $^ -o $@
 
 all: tests/test.o src/decoder.o
-	$(CC) ${CFLAGS} ${LDLIBS} $^ -o tests/test
+	$(CC) ${CFLAGS} $^ ${LDLIBS} -o tests/test
 
 test:
 	if [ ! -d "tests/fixtures" ]; then \
