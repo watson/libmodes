@@ -1,21 +1,32 @@
 INCLUDE = ./include
 CFLAGS ?= -O2 -g -Wall -W
-LDLIBS += -lpthread -lm
+LDFLAGS += -lpthread -lm
 CC ?= gcc
+
+test_file := tests/test
+test_fixtires_dir := tests/fixtures
+test_results := tests/results
+
+.PHONY: all test clean
+.DELETE_ON_ERROR:
+
+all: $(test_file)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -I${INCLUDE} $^ -o $@
 
-all: tests/test.o src/mode-s.o
-	$(CC) ${CFLAGS} $^ ${LDLIBS} -o tests/test
+$(test_file): tests/test.o src/mode-s.o
+	$(CC) ${CFLAGS} $^ ${LDFLAGS} -o $@
 
-test:
-	if [ ! -d "tests/fixtures" ]; then \
-		git clone --depth=1 https://github.com/watson/libmodes-test-fixtures.git tests/fixtures; \
+test: $(test_results)
+
+$(test_results): $(test_file)
+	if [ ! -d "$(test_fixtires_dir)" ]; then \
+		git clone --depth=1 https://github.com/watson/libmodes-test-fixtures.git $(test_fixtires_dir); \
 	else \
-		(cd tests/fixtures && git pull --depth=1 origin master); \
+		(cd $(test_fixtires_dir) && git pull --depth=1 origin master); \
 	fi
-	tests/test tests/fixtures/dump.bin
+	$(test_file) $(test_fixtires_dir)/dump.bin | tee $@
 
 clean:
-	rm -f **/*.o tests/test
+	rm -fr **/*.o $(test_file) $(test_fixtires_dir) $(test_results)
