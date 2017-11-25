@@ -3,3 +3,9 @@ compiler:
   - clang
   - gcc
 script: make && make test
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
