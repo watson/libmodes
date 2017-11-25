@@ -109,3 +109,23 @@ matrix:
             - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew update && brew install gcc5 && CC=gcc-5"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew update && brew install gcc6 && CC=gcc-6"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew update && brew install gcc && CC=gcc-7"
