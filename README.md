@@ -16,6 +16,7 @@ all non-essentials, so that only the decoding logic is left.
 
 ```c
 #include "decoder.h"
+#include <stdio.h>
 
 void on_msg(mode_s_t *self, struct mode_s_msg *mm) {
   printf("Got message from flight %s at altitude %d\n", mm->flight, mm->altitude);
@@ -23,13 +24,9 @@ void on_msg(mode_s_t *self, struct mode_s_msg *mm) {
 
 int main(int argc, char **argv) {
   mode_s_t state;
-  uint32_t data_len;
-  unsigned char *data;
-  uint16_t *mag;
-
-  data_len = 262620;        // size of data buffer
-  data = malloc(data_len);  // holds raw IQ samples from an antenna (2 char per sample)
-  mag = malloc(sizeof(uint16_t)*(data_len/2)); // holds amplitude of the signal
+  uint32_t data_len = 262620;
+  unsigned char data[data_len];
+  uint16_t mag[data_len / 2];
 
   // initialize the decoder state
   mode_s_init(&state);
@@ -38,10 +35,10 @@ int main(int argc, char **argv) {
   get_samples(data);
 
   // compute the magnitude of the signal
-  mode_s_compute_magnitude_vector(data, mag, data_len);
+  mode_s_compute_magnitude_vector(&data, &mag, data_len);
 
   // detect Mode S messages in the signal and call on_msg with each message
-  mode_s_detect(&state, mag, data_len/2, on_msg);
+  mode_s_detect(&state, &mag, data_len/2, on_msg);
 }
 ```
 
