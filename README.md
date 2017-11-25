@@ -1,5 +1,7 @@
 # libadsb
 
+[![Build status](https://travis-ci.org/watson/libadsb.svg?branch=master)](https://travis-ci.org/watson/libadsb)
+
 This is a C library for decoding ADS-B signals.
 
 Most of the code is lifted from the
