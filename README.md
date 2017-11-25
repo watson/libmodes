@@ -1,6 +1,6 @@
-# libadsb
+# libmodes
 
-[![Build status](https://travis-ci.org/watson/libadsb.svg?branch=master)](https://travis-ci.org/watson/libadsb)
+[![Build status](https://travis-ci.org/watson/libmodes.svg?branch=master)](https://travis-ci.org/watson/libmodes)
 
 This is a C library for decoding Mode S messages from aviation
 aircrafts. It supports both standard Mode S Acquisition Squitter
@@ -15,7 +15,7 @@ all non-essentials, so that only the decoding logic is left.
 ## Usage
 
 ```c
-#include "decoder.h"
+#include "mode-s.h"
 #include <stdio.h>
 
 void on_msg(mode_s_t *self, struct mode_s_msg *mm) {
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 ```
 
 Check out
-[`tests/test.c`](https://github.com/watson/libadsb/blob/master/tests/test.c)
+[`tests/test.c`](https://github.com/watson/libmodes/blob/master/tests/test.c)
 for a complete example.
 
 ## License

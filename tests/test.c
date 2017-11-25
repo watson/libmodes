@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <assert.h>
-#include "decoder.h"
+#include "mode-s.h"
 
 #define MODE_S_DATA_LEN (16*16384) // 256k
 #define MODE_S_PREAMBLE_US 8       // microseconds
