@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
   uint16_t *mag;
 
   if (argc != 2) {
-    fprintf(stderr, "Provide data filename as first argument");
+    fprintf(stderr, "Provide data filename as first argument\n");
     exit(1);
   }
 
@@ -134,6 +134,6 @@ int main(int argc, char **argv) {
     if (should_exit) break;
   }
 
-  printf("all ok");
+  printf("all ok\n");
   return 0;
 }
