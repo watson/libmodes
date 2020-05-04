@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <assert.h>
 #include "mode-s.h"
+#include <time.h>
 
 #define MODE_S_DATA_LEN (16*16384) // 256k
 #define MODE_S_PREAMBLE_US 8       // microseconds
@@ -79,9 +80,11 @@ void test(mode_s_t *self, struct mode_s_msg *mm) {
   MODE_S_NOTUSED(self);
   int j;
 
-  char *msg = (char*)malloc(mm->msgbits/4 * sizeof(char));
+  char *msg = (char*)malloc(mm->msgbits/4 * sizeof(char) + 1);
+  memset(msg, 0x00, mm->msgbits/4 * sizeof(char) + 1);
   for (j = 0; j < mm->msgbits/8; j++) sprintf(&msg[j*2], "%02x", mm->msg[j]);
   printf("validating message #%d\n", msgNo + 1);
+  fflush(stdout);
 
   assert(strcmp(msg, messages[msgNo++]) == 0);
 }
